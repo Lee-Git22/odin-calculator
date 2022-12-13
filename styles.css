@@ -1,0 +1,63 @@
+.calculator, #display, .button-container, .display-buttons, .main-buttons, .numbers-container, .functions-container {
+    border: 1px solid black;
+    display: flex;
+    margin: 20px;
+}
+
+.calculator {
+    width: 400px;
+    height: 700px;
+    flex-direction: column;
+    
+}
+
+#display {
+    margin: 20px;
+    height: 70px;
+    width: 360px;
+}
+
+.button-container {
+    height: 500px;
+    width: 360px;
+    flex-direction: column;
+    border: 1px solid green;
+}
+
+.display-buttons {
+    width: 300px;
+    height: 100px;
+    border: 1px solid blue;
+    justify-content: space-around;
+}
+
+
+.main-buttons {
+    width: 300px;
+    height: 500px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid red;
+    justify-content: center;
+}
+
+.numbers-container {
+    flex-wrap: wrap;
+    width: 60%;
+    margin: 0;
+}
+
+.functions-container {
+    width: 20%;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.function {
+    width: 90px;
+}
+
+button {
+    width: 60px;
+    height: 50px;
+}
