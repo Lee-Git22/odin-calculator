@@ -1,3 +1,7 @@
+body {
+    font-family: 'Orbitron', sans-serif;
+}
+
 .calculator, #display, .button-container, .display-buttons, .main-buttons, .numbers-container, .functions-container {
     border: 1px solid black;
     display: flex;
@@ -6,58 +10,49 @@
 
 .calculator {
     width: 400px;
-    height: 700px;
+    height: 600px;
     flex-direction: column;
     
 }
 
 #display {
     margin: 20px;
-    height: 70px;
+    height: 80px;
     width: 360px;
+    flex-shrink: 0;
+    font-size: 60px;
+    
 }
 
 .button-container {
     height: 500px;
     width: 360px;
-    flex-direction: column;
+    flex-direction: row;
     border: 1px solid green;
 }
 
-.display-buttons {
-    width: 300px;
-    height: 100px;
-    border: 1px solid blue;
-    justify-content: space-around;
-}
 
-
-.main-buttons {
-    width: 300px;
-    height: 500px;
-    flex-direction: row;
+.numbers-container, .functions-container {
+    margin: 0;
     flex-wrap: wrap;
-    border: 1px solid red;
-    justify-content: center;
+    flex-direction: row;
+    flex-shrink: 0;
 }
 
 .numbers-container {
-    flex-wrap: wrap;
-    width: 60%;
-    margin: 0;
+    width: 270px;
+    border: 1px solid red;
 }
+
 
 .functions-container {
-    width: 20%;
-    flex-wrap: wrap;
-    margin: 0;
-}
-
-.function {
     width: 90px;
+    border: 1px solid teal;
+
 }
 
-button {
-    width: 60px;
-    height: 50px;
+.function, .numbers {
+    width: 90px;
+    height: 60px;
 }
+
