@@ -2,7 +2,7 @@ body {
     font-family: 'Orbitron', sans-serif;
 }
 
-.calculator, #display, .button-container, .display-buttons, .main-buttons, .numbers-container, .functions-container {
+.calculator, #display, .button-container, .button-container, .numbers-container, .functions-container {
     border: 1px solid black;
     display: flex;
     margin: 20px;
@@ -15,20 +15,21 @@ body {
     
 }
 
+/* TODO: Make font size scale down to prevent text overflow */
 #display {
     margin: 20px;
     height: 80px;
     width: 360px;
     flex-shrink: 0;
-    font-size: 60px;
-    
+    font-size: 46px;
+    align-items: flex-end;    
 }
 
 .button-container {
     height: 500px;
     width: 360px;
     flex-direction: row;
-    border: 1px solid green;
+    /* border: 1px solid green; */
 }
 
 
@@ -37,17 +38,18 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
     flex-shrink: 0;
+    border: 0;
 }
 
 .numbers-container {
     width: 270px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 
 .functions-container {
     width: 90px;
-    border: 1px solid teal;
+    /* border: 1px solid teal; */
 
 }
 
