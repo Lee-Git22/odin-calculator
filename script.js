@@ -18,23 +18,35 @@ function divide(x, y) {
 
 function operate(x, y, operator) {
     switch (operator != null) {
-        case (operator == "+"):
+        case (operator == "add"):
             return add(x, y);
-        case (operator == "-"):
+        case (operator == "subtract"):
             return subtract(x, y);
-        case (operator == "*"):
+        case (operator == "multiply"):
             return multiply(x, y);
-        case (operator == "/"):
+        case (operator == "divide"):
             return divide(x, y);
         default:
             console.log("invalid operator")
     }
 }
 
-let power = false;
+function reset() {
+    num1 = ""
+    num2 = ""
+    result = ""
+    operator = ""
+    // console.log("reseted")
+}
+
+
+let power = false
+let switchDisplay = false // false display is for num1, on true it switches to num2
 
 num1 = ""
 num2 = ""
+result = ""
+operator = ""
 
 // TODO: Populate display with numbers buttons
 const display = document.querySelector("#display")
@@ -42,9 +54,12 @@ const display = document.querySelector("#display")
 const numberButtons = document.querySelectorAll(".numbers");
 numberButtons.forEach((button) => {
     button.addEventListener("click", () => {
-        if (power) {
+        if (power && switchDisplay == false) {
             num1 = num1 + button.textContent
             display.textContent = num1;
+        } else if (power && switchDisplay) {
+            num2 = num2 + button.textContent
+            display.textContent = num2;
         }
     })
 });
@@ -57,16 +72,50 @@ const functionButtons = document.querySelectorAll(".function");
 functionButtons.forEach((button) => {
     button.addEventListener("click", () => {
 
-        if (button.id == "powerButton") {
-            num1 = "";
-            power = !power
-            if (power) {
-                display.textContent = "0";
-            } else {
-                display.textContent = "";
+        switch (button.id != null) {
+            case (button.id == "powerButton"): 
+                reset()
+                power = !power
+                if (power) {
+                    display.textContent = "0"
+                } else {
+                    display.textContent = ""
+                }
+                break
+
+            case (button.id == "clear" && power):
+                reset()
+                switchDisplay = false
+                display.textContent = "0"
+                break
+
+            case (button.id == "back" && power): // Add special logic for result
+                display.textContent = String(display.textContent)
+                display.textContent = display.textContent.substring(0, display.textContent.length - 1)
+                break
+
+            case (button.id == "negate" && power):
+                display.textContent = -(display.textContent);
+                break
+            
+            case (button.id == "operate" && power):
+                result = operate(parseInt(num1), parseInt(num2), operator)
+                num1 = ""
+                num2 = ""
+                display.textContent = result
+                switchDisplay = false
+                break
+            
+            case (button.id == "add" || button.id == "subtract" || button.id == "multiply" || button.id == "divide" && power):
+                operator = button.id
+                switchDisplay = !switchDisplay
+                break
+            
+
             }
 
-        }
+
+        
 
 
     })
