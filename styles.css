@@ -7,7 +7,7 @@ header {
     margin: 20px;
 }
 
-.calculator, #display, .button-container, .button-container, .numbers-container, .functions-container {
+.calculator, .display-container, .button-container, .button-container, .numbers-container, .functions-container {
     border: 1px solid black;
     display: flex;
     margin: 20px;
@@ -20,15 +20,22 @@ header {
     
 }
 
-/* TODO: Make font size scale down to prevent text overflow */
-#display {
+.display-container {
     margin: 20px;
     height: 80px;
     width: 360px;
     flex-shrink: 0;
-    font-size: 46px;
+    flex-direction: column;
     justify-content: end;
-    align-items: end;    
+    align-items: end; 
+}
+
+#display {
+    font-size: 48px;   
+}
+
+#history {
+    font-size: 18px;
 }
 
 .button-container {

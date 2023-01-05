@@ -15,10 +15,13 @@ function multiply(x, y) {
 function divide(x, y) {
     return x / y
 }
-
-let sigfig = 7
 function round(input) {
-    return Number(Math.round(input+"e"+sigfig)+"e-"+sigfig)
+    decimals = 8
+    stringOutput = String(Number(Math.round(input + "e" + decimals) + "e-" + decimals))
+    if (stringOutput.length > 8) {
+        stringOutput = stringOutput.substring(0, 8)
+    }
+    return (Number(stringOutput))
 }
 
 function operate(x, y, operator) {
@@ -41,41 +44,43 @@ function operate(x, y, operator) {
 }
 
 function reset() {
+    defaultNum = "0"
     num1 = ""
     num2 = ""
     result = ""
     operator = ""
-    // console.log("reseted")
 }
 
 
 let power = false
 let switchDisplay = false // false display is for num1, on true it switches to num2
 
+defaultNum = "0"
 num1 = ""
 num2 = ""
 result = ""
 operator = ""
 
-// TODO: Populate display with numbers buttons
+// Populate display on number button click
 const display = document.querySelector("#display")
 
 const numberButtons = document.querySelectorAll(".numbers");
 numberButtons.forEach((button) => {
     button.addEventListener("click", () => {
-        if (power && switchDisplay == false && display.textContent.length < 9) {
+        // TODO: fix bug with leading 0
+        if (power && switchDisplay == false && num1.length < 9) {
             num1 = num1 + button.textContent
             display.textContent = num1;
-        } else if (power && switchDisplay && display.textContent.length < 9) {
+        } else if (power && switchDisplay && num2.length < 9) {
             num2 = num2 + button.textContent
             display.textContent = num2;
         }
     })
 });
 
-
-
-// TODO: Implement functions buttons
+// TODO
+// const history = document.querySelector("#history")
+// history.textContent = num1 + operator + num2
 
 const functionButtons = document.querySelectorAll(".function");
 functionButtons.forEach((button) => {
@@ -86,7 +91,7 @@ functionButtons.forEach((button) => {
                 reset()
                 power = !power
                 if (power) {
-                    display.textContent = "0"
+                    display.textContent = defaultNum
                 } else {
                     display.textContent = ""
                 }
@@ -95,10 +100,10 @@ functionButtons.forEach((button) => {
             case (button.id == "clear" && power):
                 reset()
                 switchDisplay = false
-                display.textContent = "0"
+                display.textContent = defaultNum
                 break
 
-            case (button.id == "back" && power): // Add special logic for result
+            case (button.id == "back" && power): 
                 if (display.textContent != result) {
                     display.textContent = String(display.textContent)
                     display.textContent = display.textContent.substring(0, display.textContent.length - 1)
@@ -108,51 +113,53 @@ functionButtons.forEach((button) => {
                 break
 
             case (button.id == "negate" && power):
-                display.textContent = -(display.textContent);
+                display.textContent = -(display.textContent)
+                if (switchDisplay) {
+                    num2 = -(num2)
+                } else {
+                    num1 = -(num1)
+                }
                 break
             
             case (button.id == "operate" && power):
                 
-
                 if (num1 != "" && num2 != "") {
+                    // Stores valid pair into mem for repeat operating
                     mem = num2
-                    result = round(operate(parseFloat(num1), parseFloat(num2), operator))
-                    
+                    result = round(operate(Number(num1), Number(num2), operator))
                 } else {
-                    result = round(operate(parseFloat(result), parseFloat(mem), operator))
+                    result = round(operate(Number(result), Number(mem), operator))
                 }
-                
+
+                // Clears number pairs and displays result
                 num1 = ""
                 num2 = ""
-
-
-
                 display.textContent = result
                 switchDisplay = false
                 break
-            
+
+            // Adds a decimal onto display if not already applied
             case (button.id == "float" && power && display.textContent.includes(".") == false):
-                // Adds a decimal onto display
                 display.textContent = display.textContent + "."
 
-                // Adds a decimal to value
+                // Adds a decimal to computed value
                 if (switchDisplay) {
                     num2 = num2 + "."
                 } else {
                     num1 = num1 + "."
-
                 }
                 break
+
             // Default case assumes only num1 input 
             case (button.id == "add" || button.id == "subtract" || button.id == "multiply" || button.id == "divide" && power):
 
-                // If there are inputs for both numbers, evaluate first as num1 and clear num2
+                // For a chain of inputs, evaluate in pairs
                 if (num1 != "" && num2 != "") {
-                    num1 = operate(parseInt(num1), parseInt(num2), operator)
+                    num1 = round(operate(Number(num1), Number(num2), operator))
                     num2 = ""
                     display.textContent = num1
 
-                // If there are no inputs(occurs after using operate), set num1 to result 
+                // If there are no inputs(occurs after repeated operates), set num1 to result 
                 } else if (num1 == "" && num2 == "" && result != "") {
                     num1 = result
                 }
@@ -161,13 +168,7 @@ functionButtons.forEach((button) => {
                 operator = button.id
                 switchDisplay = true
                 break
-            
-
             }
-
-
-        
-
 
     })
 })
