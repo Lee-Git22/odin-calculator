@@ -16,6 +16,11 @@ function divide(x, y) {
     return x / y
 }
 
+let sigfig = 7
+function round(input) {
+    return Number(Math.round(input+"e"+sigfig)+"e-"+sigfig)
+}
+
 function operate(x, y, operator) {
     // console.log(x)
     // console.log(y)
@@ -58,10 +63,10 @@ const display = document.querySelector("#display")
 const numberButtons = document.querySelectorAll(".numbers");
 numberButtons.forEach((button) => {
     button.addEventListener("click", () => {
-        if (power && switchDisplay == false) {
+        if (power && switchDisplay == false && display.textContent.length < 9) {
             num1 = num1 + button.textContent
             display.textContent = num1;
-        } else if (power && switchDisplay) {
+        } else if (power && switchDisplay && display.textContent.length < 9) {
             num2 = num2 + button.textContent
             display.textContent = num2;
         }
@@ -107,9 +112,21 @@ functionButtons.forEach((button) => {
                 break
             
             case (button.id == "operate" && power):
-                result = operate(parseFloat(num1), parseFloat(num2), operator)
+                
+
+                if (num1 != "" && num2 != "") {
+                    mem = num2
+                    result = round(operate(parseFloat(num1), parseFloat(num2), operator))
+                    
+                } else {
+                    result = round(operate(parseFloat(result), parseFloat(mem), operator))
+                }
+                
                 num1 = ""
                 num2 = ""
+
+
+
                 display.textContent = result
                 switchDisplay = false
                 break
@@ -121,10 +138,8 @@ functionButtons.forEach((button) => {
                 // Adds a decimal to value
                 if (switchDisplay) {
                     num2 = num2 + "."
-                    console.log("added")
                 } else {
                     num1 = num1 + "."
-                    console.log("added")
 
                 }
                 break
