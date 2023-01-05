@@ -37,13 +37,14 @@ button {
     flex-shrink: 0;
     border-radius: 0;
     flex-direction: column;
-    justify-content: end;
+    justify-content: start;
     align-items: end; 
     background-color: lightgrey;
 }
 
 #display {
     font-size: 48px;
+    justify-self: end;
 }
 
 #history {

@@ -16,15 +16,6 @@ function divide(x, y) {
     return x / y
 }
 
-function round(input) {
-    decimals = 8
-    stringOutput = String(Number(Math.round(input + "e" + decimals) + "e-" + decimals))
-    if (stringOutput.length > 8) {
-        stringOutput = stringOutput.substring(0, 8)
-    }
-    return (Number(stringOutput))
-}
-
 function operate(x, y, operator) {
     switch (operator != null) {
         case (operator == "+"):
@@ -40,6 +31,23 @@ function operate(x, y, operator) {
     }
 }
 
+// Rounds and displays up to 8 digits 
+function round(input) {
+    decimals = 8
+    stringOutput = String(Number(Math.round(input + "e" + decimals) + "e-" + decimals))
+    if (stringOutput.length > 8) {
+        stringOutput = stringOutput.substring(0, 8)
+    }
+    return (Number(stringOutput))
+}
+
+function updateHistory(num1, num2, operator) {
+    if (power) {
+        return (`${num1} ${operator} ${num2}`)
+    }
+}
+
+// Sets default parameters 
 function reset() {
     defaultNum = "0"
     num1 = ""
@@ -48,10 +56,6 @@ function reset() {
     operator = ""
     history.textContent = ""
     mem = ""
-}
-
-function updateHistory(num1, num2, operator) {
-    return (`${num1} ${operator} ${num2}`)
 }
 
 let power = false
@@ -66,7 +70,7 @@ operator = ""
 const display = document.querySelector("#display")
 const history = document.querySelector("#history")
 
-// Populate display on number button click
+// Populate display on number button click up until 9 characters
 const numberButtons = document.querySelectorAll(".numbers");
 numberButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -80,11 +84,13 @@ numberButtons.forEach((button) => {
     })
 });
 
+// Checks button.id for corresponding function
 const functionButtons = document.querySelectorAll(".function");
 functionButtons.forEach((button) => {
     button.addEventListener("click", () => {
-
         switch (button.id != null) {
+
+            // Toggles power switch and resets parameters
             case (button.id == "powerButton"): 
                 reset()
                 power = !power
@@ -94,20 +100,29 @@ functionButtons.forEach((button) => {
                     display.textContent = ""
                 }
                 break
-
+            
+            // Clears display and resets parameters
             case (button.id == "clear" && power):
                 reset()
                 switchDisplay = false
                 display.textContent = defaultNum
                 break
-
+            
+            // Removes last character of display and corresponding number value
             case (button.id == "back" && power): 
                 display.textContent = String(display.textContent)
                 display.textContent = display.textContent.substring(0, display.textContent.length - 1)
 
-
+                if (switchDisplay) {
+                    num2 = String(num2)
+                    num2.substring(0, num2.length - 1)
+                } else {
+                    num1 = String(num2)
+                    num1.substring(0, num1.length - 1)
+                }
                 break
-
+            
+            // Negates the current number value and changes display
             case (button.id == "negate" && power && Number(display.textContent) != 0):
                 display.textContent = -(display.textContent)
                 
@@ -116,11 +131,10 @@ functionButtons.forEach((button) => {
                 } else {
                     num1 = -(num1)
                 }
-                console.log("negated")
                 break
             
+            // Operates a number pair
             case (button.id == "operate" && power):
-                
                 if (num1 != "" && num2 != "") {
                     // Stores valid pair into mem for repeat operating
                     mem = num2
@@ -131,7 +145,7 @@ functionButtons.forEach((button) => {
                     result = round(operate(Number(result), Number(mem), operator))
                 }
 
-                // Clears number pairs and displays result
+                // Clears number pairs for next use and displays result
                 num1 = ""
                 num2 = ""
                 display.textContent = result
@@ -171,6 +185,5 @@ functionButtons.forEach((button) => {
                 switchDisplay = true
                 break
             }
-
     })
 })
