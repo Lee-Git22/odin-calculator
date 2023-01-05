@@ -19,13 +19,13 @@ function divide(x, y) {
 function operate(x, y, operator) {
     switch (operator != null) {
         case (operator == "+"):
-            return add(x, y);
+            return add(x, y)
         case (operator == "-"):
-            return subtract(x, y);
+            return subtract(x, y)
         case (operator == "×"):
-            return multiply(x, y);
+            return multiply(x, y)
         case (operator == "÷"):
-            return divide(x, y);
+            return divide(x, y)
         default:
             return "Error"
     }
@@ -71,15 +71,15 @@ const display = document.querySelector("#display")
 const history = document.querySelector("#history")
 
 // Populate display on number button click up until 9 characters
-const numberButtons = document.querySelectorAll(".numbers");
+const numberButtons = document.querySelectorAll(".numbers")
 numberButtons.forEach((button) => {
     button.addEventListener("click", () => {
         if (power && switchDisplay == false && String(Number(num1)).length < 9) {
             num1 = num1 + button.textContent
-            display.textContent = Number(num1);
+            display.textContent = Number(num1)
         } else if (power && switchDisplay && String(Number(num2)).length < 9) {
             num2 = num2 + button.textContent
-            display.textContent = Number(num2);
+            display.textContent = Number(num2)
         }
     })
 });
