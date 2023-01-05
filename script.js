@@ -13,6 +13,9 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
+    if (y == 0 || y == "0")  {
+        return "Error" 
+    }
     return x / y
 }
 function round(input) {
@@ -25,21 +28,17 @@ function round(input) {
 }
 
 function operate(x, y, operator) {
-    // console.log(x)
-    // console.log(y)
-    // console.log(operator)
-
     switch (operator != null) {
-        case (operator == "add"):
+        case (operator == "+"):
             return add(x, y);
-        case (operator == "subtract"):
+        case (operator == "-"):
             return subtract(x, y);
-        case (operator == "multiply"):
+        case (operator == "×"):
             return multiply(x, y);
-        case (operator == "divide"):
+        case (operator == "÷"):
             return divide(x, y);
         default:
-            return "0" // TODO: return history
+            return "Error"
     }
 }
 
@@ -49,8 +48,13 @@ function reset() {
     num2 = ""
     result = ""
     operator = ""
+    history.textContent = ""
+    mem = ""
 }
 
+function updateHistory(num1, num2, operator) {
+    return (`${num1} ${operator} ${num2}`)
+}
 
 let power = false
 let switchDisplay = false // false display is for num1, on true it switches to num2
@@ -61,26 +65,22 @@ num2 = ""
 result = ""
 operator = ""
 
-// Populate display on number button click
 const display = document.querySelector("#display")
+const history = document.querySelector("#history")
 
+// Populate display on number button click
 const numberButtons = document.querySelectorAll(".numbers");
 numberButtons.forEach((button) => {
     button.addEventListener("click", () => {
-        // TODO: fix bug with leading 0
-        if (power && switchDisplay == false && num1.length < 9) {
+        if (power && switchDisplay == false && String(Number(num1)).length < 9) {
             num1 = num1 + button.textContent
-            display.textContent = num1;
-        } else if (power && switchDisplay && num2.length < 9) {
+            display.textContent = Number(num1);
+        } else if (power && switchDisplay && String(Number(num2)).length < 9) {
             num2 = num2 + button.textContent
-            display.textContent = num2;
+            display.textContent = Number(num2);
         }
     })
 });
-
-// TODO
-// const history = document.querySelector("#history")
-// history.textContent = num1 + operator + num2
 
 const functionButtons = document.querySelectorAll(".function");
 functionButtons.forEach((button) => {
@@ -126,8 +126,10 @@ functionButtons.forEach((button) => {
                 if (num1 != "" && num2 != "") {
                     // Stores valid pair into mem for repeat operating
                     mem = num2
+                    history.textContent = updateHistory((num1), (num2), operator)
                     result = round(operate(Number(num1), Number(num2), operator))
                 } else {
+                    history.textContent = updateHistory((result), (mem), operator)
                     result = round(operate(Number(result), Number(mem), operator))
                 }
 
@@ -152,9 +154,10 @@ functionButtons.forEach((button) => {
 
             // Default case assumes only num1 input 
             case (button.id == "add" || button.id == "subtract" || button.id == "multiply" || button.id == "divide" && power):
-
+                
                 // For a chain of inputs, evaluate in pairs
                 if (num1 != "" && num2 != "") {
+                    
                     num1 = round(operate(Number(num1), Number(num2), operator))
                     num2 = ""
                     display.textContent = num1
@@ -165,7 +168,8 @@ functionButtons.forEach((button) => {
                 }
 
                 // Pass on the operator and switch display
-                operator = button.id
+                operator = button.textContent
+                history.textContent = updateHistory((num1), (num2), operator)
                 switchDisplay = true
                 break
             }
