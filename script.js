@@ -13,11 +13,9 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
-    if (y == 0 || y == "0")  {
-        return "Error" 
-    }
     return x / y
 }
+
 function round(input) {
     decimals = 8
     stringOutput = String(Number(Math.round(input + "e" + decimals) + "e-" + decimals))
@@ -104,21 +102,21 @@ functionButtons.forEach((button) => {
                 break
 
             case (button.id == "back" && power): 
-                if (display.textContent != result) {
-                    display.textContent = String(display.textContent)
-                    display.textContent = display.textContent.substring(0, display.textContent.length - 1)
-                } else {
-                    // TODO: clear history
-                }
+                display.textContent = String(display.textContent)
+                display.textContent = display.textContent.substring(0, display.textContent.length - 1)
+
+
                 break
 
-            case (button.id == "negate" && power):
+            case (button.id == "negate" && power && Number(display.textContent) != 0):
                 display.textContent = -(display.textContent)
+                
                 if (switchDisplay) {
                     num2 = -(num2)
                 } else {
                     num1 = -(num1)
                 }
+                console.log("negated")
                 break
             
             case (button.id == "operate" && power):

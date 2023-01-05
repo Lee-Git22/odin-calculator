@@ -3,12 +3,22 @@ body {
     font-family: 'Orbitron', sans-serif;
 }
 
+.calculator {
+    background-color: steelblue
+}
+
 header {
     margin: 20px;
 }
 
+button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+}
+
 .calculator, .display-container, .button-container, .button-container, .numbers-container, .functions-container {
     border: 1px solid black;
+    border-radius: 12px;
     display: flex;
     margin: 20px;
 }
@@ -25,13 +35,15 @@ header {
     height: 80px;
     width: 360px;
     flex-shrink: 0;
+    border-radius: 0;
     flex-direction: column;
     justify-content: end;
     align-items: end; 
+    background-color: lightgrey;
 }
 
 #display {
-    font-size: 48px;   
+    font-size: 48px;
 }
 
 #history {
@@ -40,10 +52,12 @@ header {
 }
 
 .button-container {
-    height: 500px;
+    height: 420px;
     width: 360px;
     flex-direction: row;
-    /* border: 1px solid green; */
+    border-radius: 0;
+    flex-shrink: 0;
+    background-color: lightgrey;
 }
 
 
@@ -57,18 +71,31 @@ header {
 
 .numbers-container {
     width: 270px;
-    /* border: 1px solid red; */
 }
 
 
 .functions-container {
     width: 90px;
-    /* border: 1px solid teal; */
 
 }
 
 .function, .numbers {
     width: 90px;
     height: 60px;
+}
+
+.functions-container > button, .numbers-container > .function {
+    background-color: pink;
+    border-color: pink;
+}
+
+.functions-container > #operate {
+    background-color: grey;
+    border-color: grey;
+}
+
+.numbers-container > .numbers {
+    background-color: white;
+    border-color: white;
 }
 
