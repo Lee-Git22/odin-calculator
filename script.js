@@ -131,7 +131,7 @@ functionButtons.forEach((button) => {
                 switchDisplay = false
                 break
             
-            case (button.id == "float" && power):
+            case (button.id == "float" && power && display.textContent.includes(".") == false):
                 // Adds a decimal onto display
                 display.textContent = display.textContent + "."
 
